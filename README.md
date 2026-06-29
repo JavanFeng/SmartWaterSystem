@@ -198,5 +198,7 @@ public class MyNewTool implements IMcpTool {
 - [ ] 接入 experience 机制
 - [ ] ...
 
+## 界面预览
+<img width="1882" height="864" alt="image" src="https://github.com/user-attachments/assets/e0136aac-4afe-464e-84c0-2c3c78750fd5" />
 
 
