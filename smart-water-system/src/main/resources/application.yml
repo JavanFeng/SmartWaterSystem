@@ -1,0 +1,55 @@
+server:
+  port: 8989
+spring:
+  application:
+    name: smart-water-system
+  main:
+    web-application-type: servlet
+
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: qwen-plus
+      embedding:
+        options:
+          model: text-embedding-v3
+          dimensions: 1024
+
+    vectorstore:
+      milvus:
+        auto-id: true
+        client:
+          host: ${MILVUS_HOST:localhost} # default: localhost
+          port: ${MILVUS_PORT:19530} # default: 19530
+          username: ${MILVUS_USERNAME:root} # default: root
+          password: ${MILVUS_PASSWORD:Milvus} # default: milvus
+        databaseName: ${MILVUS_DATABASE_NAME:default} # default: default
+        collectionName: ${MILVUS_COLLECTION_NAME:vector_store} # default: vector_store
+        embeddingDimension: 1024
+        indexType: IVF_FLAT # default: IVF_FLAT
+        metricType: COSINE # default: COSINE
+
+    mcp:
+      client:
+        enabled: true
+        name: smart-water-system-mcp-client
+        version: 1.0.0
+        request-timeout: 60s
+        type: ASYNC
+        initialized: true
+        toolcallback:
+          enabled: true
+        streamable-http:
+          connections:
+            power-tools:
+              url: http://localhost:9998
+
+water:
+  qa:
+    vector:
+      init:
+        enable: true # 调用text-embedding 消耗token
+      collection:
+        autoCreate: true

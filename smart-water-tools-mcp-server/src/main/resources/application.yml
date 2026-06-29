@@ -1,0 +1,17 @@
+server:
+  port: 9998
+
+spring:
+  application:
+    name: smart-water-tools-mcp-server
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: smart-water-tools-mcp-server
+        version: 1.0.0
+        type: SYNC
+        protocol: STREAMABLE
+        instructions: "Water tools exposed over MCP Streamable HTTP."
+        capabilities:
+          tool: true
