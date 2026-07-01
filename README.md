@@ -193,9 +193,11 @@ public class MyNewTool implements IMcpTool {
 - 为了便于理解，项目中去除了所有数据库等依赖，业务数据都以模拟值为主
 
 ## TODO（后续可能会补充）
+- [ ] 业务限流、幂等等
 - [ ] 接入observation
 - [ ] 接入 skill 机制
 - [ ] 接入 experience 机制
+- [ ] 评测体系，Golden Set、LLM-as-Judge、Trace ...
 - [ ] ...
 
 ## 界面预览
