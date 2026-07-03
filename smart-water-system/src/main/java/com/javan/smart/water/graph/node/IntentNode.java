@@ -2,6 +2,7 @@ package com.javan.smart.water.graph.node;
 
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.RunnableConfig;
+import com.alibaba.cloud.ai.graph.StateGraph;
 import com.alibaba.cloud.ai.graph.action.AsyncNodeAction;
 import com.alibaba.cloud.ai.graph.action.AsyncNodeActionWithConfig;
 import com.alibaba.fastjson.JSON;
@@ -13,6 +14,7 @@ import com.javan.smart.water.common.enums.IntentEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import reactor.core.publisher.Flux;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +66,9 @@ public class IntentNode implements AsyncNodeActionWithConfig {
                 }
                 return result;
             } else {
+                // other error
+                result.put(GraphConstant.OUTPUT_KEY, Flux.just(recognitionResult.getErrorMessage()));
+                result.put(GraphConstant.INTENT_TYPE, StateGraph.END);
                 return result;
             }
         });

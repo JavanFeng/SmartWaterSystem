@@ -7,6 +7,7 @@ import com.alibaba.cloud.ai.graph.agent.hook.Hook;
 import com.alibaba.cloud.ai.graph.checkpoint.savers.MemorySaver;
 import com.javan.smart.water.common.constant.AgentConstant;
 import com.javan.smart.water.interceptor.LogToolInterceptor;
+import com.javan.smart.water.interceptor.ToolAuthCheckInterceptor;
 import com.javan.smart.water.tool.common.WeatherMockTools;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.tool.ToolCallback;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -51,7 +53,8 @@ public class DataToolAgent {
 
         // default model
         DashScopeChatModel systemModel = chatModel.mutate().defaultOptions(DashScopeChatOptions.builder()
-                .model(DashScopeChatModel.DEFAULT_MODEL_NAME)
+//                .model(DashScopeChatModel.DEFAULT_MODEL_NAME)
+                        .model(chatModel.getDashScopeChatOptions().getModel())
                 .temperature(0.1)
                 .maxToken(1000)
                 .topP(0.5)
@@ -63,7 +66,7 @@ public class DataToolAgent {
                 .instruction(instruction)
                 .hooks(hooks)
                 .inputType(String.class)
-                .interceptors(new LogToolInterceptor())
+                .interceptors(new LogToolInterceptor(), new ToolAuthCheckInterceptor())
                 // 先用内存即可
                 .saver(memorySaver)
                 .tools(Stream.concat(Arrays.stream(tools.getToolCallbacks()),

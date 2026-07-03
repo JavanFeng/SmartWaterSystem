@@ -51,7 +51,7 @@ public class AnalysisIntentNode implements AsyncNodeActionWithConfig {
     private final ChatClient chatClient;
 
     public AnalysisIntentNode(ChatClient.Builder chatClientBuilder, Resource intentPromptResource) {
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder.clone().build();
         this.intentPromptResource = intentPromptResource;
     }
 
@@ -87,7 +87,9 @@ public class AnalysisIntentNode implements AsyncNodeActionWithConfig {
                             MessageChatMemoryAdvisor.builder(CHAT_MEMORY)
                                     .conversationId(config.threadId().orElse("default")).build())
                     .options(DashScopeChatOptions.builder()
-                            .model(DashScopeModel.ChatModel.QWEN_PLUS.value).build())
+                    // xuanxxux选一个弱一点的模型
+//                            .model(DashScopeModel.ChatModel.QWEN_PLUS.value)
+                            .build())
                     .call().entity(AnalysisIntentResp.class);
             Map<String, Object> result = new HashMap<>();
             result.put(GraphConstant.ANALYSIS_INTENT_KEY, intentResp.intent());

@@ -26,8 +26,6 @@ public enum RecognitionStatus {
 
     FAILED,
 
-    SKIPPED,
-
     TIMEOUT,
 
     ERROR,

@@ -127,7 +127,8 @@ public class AnalysisAgent {
         // default model
         DashScopeChatModel systemModel = chatModel.mutate().defaultOptions(DashScopeChatOptions.builder()
                 // 用更高級別model
-                .model(DashScopeModel.ChatModel.QWEN_MAX.value)
+//                .model(DashScopeModel.ChatModel.QWEN_MAX.value)
+                        .model(chatModel.getDefaultOptions().getModel())
                 .temperature(0.1)
                 .topP(0.5)
                 .build()).build();
@@ -148,7 +149,9 @@ public class AnalysisAgent {
                 ).toArray(Hook[]::new))
                 .systemPrompt(SYS_PROMPT)
                 .outputSchema(outputConverter.getFormat())
+                // 这种方式现在无法带context,需要底层代码的原因
                 .tools(AgentTool.create(toolAgent))
+//                .enableLogging(true)
                 .interceptors(
                         new LogToolInterceptor()
                 )

@@ -50,7 +50,8 @@ public class HandleOrderAgent {
 
         // default model
         DashScopeChatModel systemModel = chatModel.mutate().defaultOptions(DashScopeChatOptions.builder()
-                .model(DashScopeChatModel.DEFAULT_MODEL_NAME)
+                // 换一个model
+                .model(chatModel.getDefaultOptions().getModel())
                 .temperature(0.2)
                 .maxToken(500)
                 .topP(0.6)

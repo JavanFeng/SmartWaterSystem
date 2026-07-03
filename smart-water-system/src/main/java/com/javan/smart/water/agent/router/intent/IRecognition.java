@@ -26,12 +26,12 @@ public interface IRecognition {
     String getRecognitionId();
 
     /**
-     * 识别超时时间,默认20s
+     * 识别超时时间,默认30s
      *
      * @author Javan
      * @since 1.0.0
      */
     default Long getTimeoutMs() {
-        return 20000L;
+        return 30000L;
     }
 }

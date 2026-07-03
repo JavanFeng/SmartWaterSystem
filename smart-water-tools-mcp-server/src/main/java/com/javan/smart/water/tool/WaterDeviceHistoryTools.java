@@ -28,7 +28,7 @@ public class WaterDeviceHistoryTools implements IMcpTool {
     @Tool(description = "查询站点位水质信息历史记录。可以按站点，时间范围等条件查询。")
 //    @McpTool(name = "getWaterHistory", description = "查询站点位水质信息历史记录。可以按站点，时间范围等条件查询。"
 //            , annotations = {Tool.class, ToolParam.class})
-    public String getWaterHistory(
+    public String searchPubWaterHistory(
             @ToolParam(description = "站点名称，如 HZ-XS-R01-01") String stcd,
             @ToolParam(description = "查询过去时间天数，取值为1-14之间。默认为7") Integer days) {
         logger.info("MCP getWaterHistory: stcd={}, days={}", stcd, days);

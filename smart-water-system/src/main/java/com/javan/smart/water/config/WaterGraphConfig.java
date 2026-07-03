@@ -78,7 +78,8 @@ public class WaterGraphConfig {
                 .addConditionalEdges(GraphRouterConstant.INTENT, AsyncEdgeAction.edge_async(IntentDispatcher.create()), Map.of(
                         GraphRouterConstant.CHAT, GraphRouterConstant.CHAT,
                         GraphRouterConstant.ANALYSIS_TASK_WAIT, GraphRouterConstant.ANALYSIS_TASK_WAIT,
-                        GraphRouterConstant.WATER_QA, GraphRouterConstant.WATER_QA
+                        GraphRouterConstant.WATER_QA, GraphRouterConstant.WATER_QA,
+                        StateGraph.END, StateGraph.END
                 ))
                 .addConditionalEdges(GraphRouterConstant.ANALYSIS_TASK_WAIT, AsyncEdgeAction.edge_async(NextDispatcher.create())
                         , Map.of(

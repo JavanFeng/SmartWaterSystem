@@ -79,7 +79,7 @@ public class ChatNode implements NodeActionWithConfig {
      */
     public ChatNode(String nodeName, ChatClient.Builder chatClientBuilder, String prompt) {
         this.nodeName = nodeName;
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder.clone().build();
         this.prompt = StrUtil.isBlank(prompt) ? DEFAULT_PROMPT : prompt;
     }
 

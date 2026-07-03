@@ -96,6 +96,7 @@ public class ChatController {
         inputs.put(GraphConstant.USER_ID_KEY, userId);
 
         RunnableConfig.Builder build = RunnableConfig.builder().threadId(sessionId);
+        build.addMetadata(GraphConstant.USER_ID_KEY, userId);
         if (metadata != null) {
             build.addMetadata(RunnableConfig.HUMAN_FEEDBACK_METADATA_KEY, metadata);
         }

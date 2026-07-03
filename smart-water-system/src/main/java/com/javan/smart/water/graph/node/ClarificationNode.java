@@ -66,7 +66,7 @@ public class ClarificationNode implements AsyncNodeActionWithConfig, Interruptab
      *
      */
     public ClarificationNode(ChatClient.Builder chatClientBuilder, String prompt) {
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder.clone().build();
         this.prompt = StrUtil.isBlank(prompt) ? DEFAULT_PROMPT : prompt;
     }
 

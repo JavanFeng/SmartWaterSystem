@@ -8,6 +8,7 @@ import com.alibaba.cloud.ai.graph.agent.ReactAgent;
 import com.alibaba.cloud.ai.graph.agent.hook.Hook;
 import com.javan.smart.water.agent.analysis.AnalysisAgent;
 import com.javan.smart.water.agent.router.model.IntentResp;
+import com.javan.smart.water.common.constant.CommonConstant;
 import com.javan.smart.water.common.constant.GraphConstant;
 import com.javan.smart.water.common.constant.GraphRouterConstant;
 import com.javan.smart.water.graph.node.model.AnalysisResult;
@@ -19,16 +20,15 @@ import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Flux;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- *  后续可 asNode来改写
+ * 后续可 asNode来改写
+ *
  * @author FengJ
  * @description 水质分析节点 SubCompiledGraphNodeAction
  */
@@ -80,6 +80,7 @@ public class AnalysisNode implements NodeActionWithConfig {
             }
         }
 
+        String userId = state.value(GraphConstant.USER_ID_KEY).map(Object::toString).orElse("");
         String forceEnd = state.value(GraphConstant.FORCE_END_KEY).map(Object::toString).orElse(GraphConstant.AGENT_NO);
         String forceEndReason = state.value(GraphConstant.FORCE_END_REASON_KEY).map(Object::toString).orElse("");
         // 1. 获取上一轮的全局数据池
@@ -105,7 +106,9 @@ public class AnalysisNode implements NodeActionWithConfig {
 
         AssistantMessage assistantMessage = reactAgent
                 .call(input, RunnableConfig.builder()
-                        .threadId(config.threadId().orElse("default")).build());
+                        .threadId(config.threadId().orElse("default"))
+                        .addMetadata(CommonConstant.USER_ID, userId)
+                        .build());
         logger.debug("analysis result assistantMessage: {}", assistantMessage);
         AnalysisResult convert = AnalysisAgent.outputConverter.convert(assistantMessage.getText());
         if (AnalysisResult.Status.SUCCESS.getStatus().equals(convert.status())) {

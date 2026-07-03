@@ -24,7 +24,7 @@ public class WaterStationLinkOrderTools implements IMcpTool {
 
     @Tool(description = "查询站点近期12个月内相关水质污染物异常的处理工单")
     @McpPermission
-    public String getWaterStationLinkOrder(
+    public String searchWaterStationLinkOrder(
             @ToolParam(description = "站点名称，如 HZ-XS-R01-01") String stcd) {
         logger.info("MCP getWaterSectionData: stcd={}", stcd);
         List<WaterHandlerOrder> handlerOrders = List.of(

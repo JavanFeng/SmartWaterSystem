@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 public enum IntentEnum {
     WATER_QA("WATER_QA",
-            "知识问答：用户询问水质等级标准，水资源污染物处理规范等",
+            "知识问答：用户询问水质等级标准，水资源污染物处理规范等但不涉及站点水质数据值异常分析/污染物原因分析等",
             "涉及查询水质等级标准/水质污染物处理规范",
             new RuleBasedRecognition.WordRegexMatcher(List.of(
                     Pattern.compile("^(水质等级标准|水资源|污染物)(处理规范)是(什么|多少|怎么样).*?"),

@@ -1,6 +1,7 @@
 package com.javan.smart.water.graph.dispatcher;
 
 import com.alibaba.cloud.ai.graph.OverAllState;
+import com.alibaba.cloud.ai.graph.StateGraph;
 import com.alibaba.cloud.ai.graph.action.EdgeAction;
 import com.javan.smart.water.common.constant.GraphConstant;
 import com.javan.smart.water.common.constant.GraphRouterConstant;
@@ -19,6 +20,10 @@ public class IntentDispatcher implements EdgeAction {
     @Override
     public String apply(OverAllState state) {
         String intent = state.value(GraphConstant.INTENT_TYPE, "");
+        if (StateGraph.END.equals(intent)) {
+            return StateGraph.END;
+        }
+
         String authPass = state.value(GraphConstant.AGENT_AUTH_STATUS_KEY, GraphConstant.AGENT_AUTH_STATUS_SUCCESS_VALUE);
         if (GraphConstant.AGENT_AUTH_STATUS_FAIL_VALUE.equals(authPass)) {
             // 没权限走chat

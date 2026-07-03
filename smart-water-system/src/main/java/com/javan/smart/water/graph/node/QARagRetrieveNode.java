@@ -81,7 +81,8 @@ public class QARagRetrieveNode implements NodeActionWithConfig {
         Prompt prompt = Prompt.builder()
                 .messages(new UserMessage(input))
                 .build();
-        Flux<ChatResponse> chatResponseFlux = chatClientBuilder.build()
+        Flux<ChatResponse> chatResponseFlux = chatClientBuilder
+                .clone().build()
                 .prompt(prompt)
                 .system(DEFAULT_PROMPT)
                 .advisors(this.baseAdvisor, MessageChatMemoryAdvisor

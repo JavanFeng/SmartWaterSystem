@@ -12,7 +12,7 @@ public class DateTimeTools {
     public static final String TOOL_GET_CURRENT_DATETIME = "getCurrentDateTime";
 
     @Tool(name = TOOL_GET_CURRENT_DATETIME, description = "获取当前日期时间")
-    public String getCurrentDateTime() {
+    public String searchPubCurrentDateTime() {
         return LocalDateTime.now().atZone(LocaleContextHolder.getTimeZone().toZoneId()).toString();
     }
 }

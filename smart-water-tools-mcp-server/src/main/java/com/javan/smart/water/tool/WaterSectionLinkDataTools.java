@@ -26,7 +26,7 @@ public class WaterSectionLinkDataTools  implements IMcpTool {
 
     @McpPermission
     @Tool(description = "查询站点所在相关断面以及上下游的水质数据。")
-    public String getWaterSectionData(
+    public String searchWaterSectionData(
             @ToolParam(description = "站点名称，如 HZ-XS-R01-01") String stcd,
             @ToolParam(description = "日期，格式YYYY-MM-DD。如2026-01-01") String day,
             @ToolParam(description = "小时，24小时制,0-23") String hour) {

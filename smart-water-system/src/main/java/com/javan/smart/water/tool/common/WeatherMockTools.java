@@ -39,7 +39,7 @@ public class WeatherMockTools {
     );
 
     @Tool(description = "获取指定地区或者城市站点的历史天气。适用于询问地区城市历史天气；辅助分析水质元素，污染物数值异常分析。")
-    public String getHistoryWeatherInfo(@ToolParam(description = "查询天气的地区或城市名称，如：杭州") String city) {
+    public String searchPubHistoryWeatherInfo(@ToolParam(description = "查询天气的地区或城市名称，如：杭州") String city) {
         int round = new Random().nextInt(3);
         List<HistoryWeather> historyWeathers = MOCK_HISTORY.get(Math.max(0, round - 1));
         String result = JSON.toJSONString(historyWeathers);

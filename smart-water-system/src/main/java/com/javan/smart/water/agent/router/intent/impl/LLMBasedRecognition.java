@@ -72,7 +72,8 @@ public class LLMBasedRecognition implements IRecognition {
 
     @Autowired
     public LLMBasedRecognition(ChatClient.Builder chatClient) {
-        this.chatClient = chatClient.build();
+        this.chatClient = chatClient.clone()
+                .build();
     }
 
     @Override
@@ -117,8 +118,6 @@ public class LLMBasedRecognition implements IRecognition {
                                 .advisors(SimpleLoggerAdvisor.builder().build(),
                                         MessageChatMemoryAdvisor.builder(CHAT_MEMORY)
                                                 .conversationId(conversationId).build())
-                                .options(DashScopeChatOptions.builder()
-                                        .model(DashScopeModel.ChatModel.QWEN_PLUS.value).build())
                                 .call().entity(IntentResp.class);
                         IntentEnum intent = null;
                         if (null != intentResp) {
