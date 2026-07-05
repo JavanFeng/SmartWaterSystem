@@ -152,7 +152,7 @@ public class LLMBasedRecognition implements IRecognition {
                     logger.error("timeout intent recognize {}: {}",
                             recognitionId, e.getMessage(), e);
                     result.setStatus(RecognitionStatus.TIMEOUT);
-                    result.setErrorMessage(e.getMessage());
+                    result.setErrorMessage("LLM模型超时，请稍后再试");
                     return result;
                 });
     }

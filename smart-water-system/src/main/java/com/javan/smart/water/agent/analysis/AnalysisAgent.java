@@ -42,19 +42,23 @@ public class AnalysisAgent {
 
     public static final BeanOutputConverter<AnalysisResult> outputConverter = new BeanOutputConverter<>(AnalysisResult.class);
 
-    private static final String SYS_PROMPT = "你是一个专业的工业级水质分析引擎（Analysis Engine）。你的唯一任务是：接收上游数据调度层传入的数据以及调用tool_agent工具获取的数据，进行严谨研判，并**严格以 JSON 格式**输出分析结果。绝对不要直接输出自然语言或纯 Markdown 文本与用户对话，你的输出将被下游系统程序化解析。";
     @Value("classpath:/prompts/analysis-instruction.md")
     private Resource instructionResource;
 
+    @Value("classpath:/prompts/analysis-system.md")
+    private Resource systemPromptResource;
+
     private static final String fallbackInject = """
-            【当前降级数据注入】
+            <fallback_data>
              %s
+            </fallback_data>
             """;
 
     private static final String userIntentInject = """
-            【用戶是否要求强制结束分析】
-             强制结束: %s,
-             用户原回答：%s
+            <analysis_control>
+                <force_terminate>%s</force_terminate>
+                <user_original_response>%s</user_original_response>
+             </analysis_control>
             """;
     private static final String SUMMARY_PROMPT = """
             <role>
@@ -111,13 +115,17 @@ public class AnalysisAgent {
 
         String forceEndFinal = StrUtil.EMPTY;
         if (StrUtil.isNotBlank(userForceEnd) && GraphConstant.AGENT_YES.equals(userForceEnd)) {
-            forceEndFinal = userIntentInject.formatted(userForceEnd, forceEndReason);
+            forceEndFinal = userIntentInject.formatted(true, forceEndReason);
         }
         String instruction = SystemPromptTemplate.builder().resource(
                 instructionResource
         ).build().render(Map.of("stationInfo", stationInfo,
                 "fallbackDataInjection", fallbackDataFinal,
                 "forceEndInjection", forceEndFinal));
+        //system
+        String systemPrompt = SystemPromptTemplate.builder().resource(
+                systemPromptResource).build().render() ;
+
         ReactAgent toolAgent = dataToolAgent.create(List.of());
         // 次数限制 防止死循环
         ToolCallLimitHook toolCallLimitHook = ToolCallLimitHook.builder().runLimit(20)
@@ -147,7 +155,7 @@ public class AnalysisAgent {
                         Stream.of(toolCallLimitHook, summarizationHook),
                         hooks.stream()
                 ).toArray(Hook[]::new))
-                .systemPrompt(SYS_PROMPT)
+                .systemPrompt(systemPrompt)
                 .outputSchema(outputConverter.getFormat())
                 // 这种方式现在无法带context,需要底层代码的原因
                 .tools(AgentTool.create(toolAgent))

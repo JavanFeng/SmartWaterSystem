@@ -11,7 +11,7 @@ spring:
       api-key: ${AI_DASHSCOPE_API_KEY}
       chat:
         options:
-          model: glm-5
+          model: glm-4.6
       embedding:
         options:
           model: text-embedding-v3

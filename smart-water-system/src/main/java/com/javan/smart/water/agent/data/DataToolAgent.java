@@ -36,10 +36,8 @@ public class DataToolAgent {
     @Autowired
     DashScopeChatModel chatModel;
     private static final MemorySaver memorySaver = new MemorySaver();
-
-    private static final String SYS_PROMPT = "你是智慧水务平台的数据调度与工具调用专家。你的核心职责是精准理解用户关于水质分析、污染溯源及水务管理的提问，并自主调度最合适的 MCP 工具或内部接口来获取真实数据。请始终保持客观严谨的态度，严禁编造任何事实信息。";
-    @Value("classpath:/prompts/tool-instruction.md")
-    private Resource instructionResource;
+    @Value("classpath:/prompts/tool-system.md")
+    private Resource systemResource;
 
     @Autowired
     private ToolCallbackProvider tools;
@@ -47,8 +45,8 @@ public class DataToolAgent {
     private WeatherMockTools weatherMockTools;
 
     public ReactAgent create(List<Hook> hooks) {
-        String instruction = SystemPromptTemplate.builder().resource(
-                instructionResource
+        String systemPrompt = SystemPromptTemplate.builder().resource(
+                systemResource
         ).build().render();
 
         // default model
@@ -62,8 +60,7 @@ public class DataToolAgent {
         return ReactAgent.builder()
                 .name(AgentConstant.TOOL_AGENT_NAME)
                 .model(systemModel)
-                .systemPrompt(SYS_PROMPT)
-                .instruction(instruction)
+                .systemPrompt(systemPrompt)
                 .hooks(hooks)
                 .inputType(String.class)
                 .interceptors(new LogToolInterceptor(), new ToolAuthCheckInterceptor())
